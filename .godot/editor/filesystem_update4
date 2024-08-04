@@ -1,1 +1,7 @@
-addons/godot-git-plugin/win64/~libgit_plugin.windows.editor.x86_64.dll
+res://characters/player.gd
+res://characters/player.tscn
+res://scenes/world.tscn
+res://scripts/player.gd
+res://scenes/main-menu.tscn
+res://characters/mobs/slime.tscn
+res://scripts/basic-mob.gd

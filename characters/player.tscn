@@ -1,7 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://b4tfpu6sosedw"]
+[gd_scene load_steps=23 format=3 uid="uid://b4tfpu6sosedw"]
 
-[ext_resource type="Script" path="res://characters/player.gd" id="1_jy113"]
-[ext_resource type="Texture2D" uid="uid://cq4nvs0128to7" path="res://characters/Adventure_Character_Simple.png" id="2_xpn27"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_jy113"]
+[ext_resource type="Texture2D" uid="uid://cq4nvs0128to7" path="res://art/Adventure_Character_Simple.png" id="2_xpn27"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xfgqe"]
+radius = 5.0
+height = 26.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8i86n"]
 atlas = ExtResource("2_xpn27")
@@ -140,13 +144,38 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uto0h"]
+radius = 7.55431
+height = 32.0
+
 [node name="player" type="CharacterBody2D"]
+collision_layer = 3
 script = ExtResource("1_jy113")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.124958, 0.124958)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_xfgqe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(565, 319)
-scale = Vector2(4.76042, 4.76042)
+position = Vector2(0.124958, -9.87504)
+scale = Vector2(1.71354, 1.71354)
 sprite_frames = SubResource("SpriteFrames_lcbed")
-animation = &"up"
+animation = &"idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0.124958, 0.124958)
+scale = Vector2(0.5, 0.5)
+zoom = Vector2(1.5, 1.5)
+limit_left = -500000
+limit_top = -500000
+limit_right = 500000
+limit_bottom = 500000
+
+[node name="player_hitbox" type="Area2D" parent="."]
+position = Vector2(0, -11)
+scale = Vector2(2.83294, -1.69318)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
+scale = Vector2(0.629943, 0.541341)
+shape = SubResource("CapsuleShape2D_uto0h")
