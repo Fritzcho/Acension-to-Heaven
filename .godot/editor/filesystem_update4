@@ -1,7 +1,4 @@
 res://characters/player.gd
-res://characters/player.tscn
-res://scenes/world.tscn
 res://scripts/player.gd
-res://scenes/main-menu.tscn
-res://characters/mobs/slime.tscn
 res://scripts/basic-mob.gd
+res://scenes/world.tscn
