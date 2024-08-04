@@ -1,8 +1,35 @@
 extends CharacterBody2D
 
-
-const SPEED = 300.0
+const SPEED = 200.0
 var current_dir = 'none'
+const right = {
+	action = "ui_right",
+	direction =  "right",
+	x = SPEED,
+	y = 0,
+}
+const left = {
+	action = "ui_left",
+	direction = "left",
+	negative = true,
+	x = -SPEED,
+	y = 0,
+}
+const up = {
+	action = "ui_up",
+	direction = "up",
+	negative = true,
+	x = 0,
+	y = -SPEED,
+}
+const down = {
+	action = "ui_down",
+	direction = "down",
+	negative = false,
+	x = 0,
+	y = SPEED,
+}
+var uiActionList = [right, left, up, down]
 
 func _ready():
 	$AnimatedSprite2D.play("idle")
@@ -11,62 +38,43 @@ func _physics_process(delta):
 	player_movement(delta)
 
 func player_movement(delta):
-	if Input.is_action_pressed("ui_right"):
-		current_dir = "right"
-		play_anim(1)
-		velocity.x = SPEED
-		velocity.y = 0
-	if Input.is_action_just_released("ui_right"):
-		velocity.x = 0
-	elif Input.is_action_pressed("ui_left"):
-		current_dir = "left"
-		play_anim(1)
-		velocity.x = -SPEED
-		velocity.y = 0
-	elif Input.is_action_pressed("ui_down"):
-		current_dir = "down"
-		play_anim(1)
-		velocity.x = 0
-		velocity.y = SPEED
-	elif Input.is_action_pressed("ui_up"):
-		current_dir = "up"
-		play_anim(1)
-		velocity.x = 0
-		velocity.y = -SPEED
-	else:
+
+	for actionObject in uiActionList:
+		for otherObject in uiActionList:
+			if (actionObject != otherObject) and (Input.is_action_pressed(actionObject.action) and Input.is_action_pressed(otherObject.action)):
+				current_dir = actionObject.direction
+				play_anim(1)
+				velocity.x = (actionObject.x+otherObject.x)/1.41
+				velocity.y = (actionObject.y+otherObject.y)/1.41
+			elif Input.is_action_pressed(actionObject.action):
+				current_dir = actionObject.direction
+				play_anim(1)
+				velocity.x = actionObject.x
+				velocity.y = actionObject.y
+	if(Input.is_anything_pressed()==false):
 		play_anim(0)
 		velocity.x = 0
 		velocity.y = 0
-	
+
 	move_and_slide()
+
+func setMovement(mov, anim):
+	if mov == 1:
+		anim.play("running")
+	elif mov == 0:
+		anim.play("idle")
 	
 func play_anim(movement): 
 	var dir = current_dir
 	var anim = $AnimatedSprite2D
-	
 	match dir:
 		"right":
 			anim.flip_h = false
-			if movement == 1:
-				anim.play("running")
-			elif movement == 0:
-				anim.play("idle")
+			setMovement(movement, anim)
 		"left": 
 			anim.flip_h = true
-			if movement == 1:
-				anim.play("running")
-			elif movement == 0:
-				anim.play("idle")
-		"right":
-			anim.flip_h = true
-			if movement == 1:
-				anim.play("up")
-			elif movement == 0:
-				anim.play("idle")
+			setMovement(movement, anim)
+		"up":
+			setMovement(movement, anim)
 		"down":
-			anim.flip_h = true
-			if movement == 1:
-				anim.play("running")
-			elif movement == 0:
-				anim.play("idle")
-	
+			setMovement(movement, anim)
