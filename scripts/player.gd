@@ -78,3 +78,19 @@ func play_anim(movement):
 			setMovement(movement, anim)
 		"down":
 			setMovement(movement, anim)
+
+
+# @export var speed = 400
+
+# func get_input():
+# 	var input_direction = Input.get_vector("left", "right", "up", "down")
+# 	velocity = input_direction * speed
+
+# func _physics_process(delta):
+# 	get_input()
+# 	if(Input.is_anything_pressed()==false):
+# 		play_anim(0)
+# 	else:
+# 		current_dir = get_input()
+# 		play_anim(1)
+# 	move_and_slide()
